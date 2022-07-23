@@ -64,7 +64,7 @@ fun BookView(
                     overflow = TextOverflow.Ellipsis,
                     modifier = modifier.padding(4.dp),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = 18.sp
                 )
                 LazyRow(
                     modifier = modifier.fillMaxWidth()

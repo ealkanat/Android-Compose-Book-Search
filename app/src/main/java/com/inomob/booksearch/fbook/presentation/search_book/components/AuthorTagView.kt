@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -62,6 +63,7 @@ fun AuthorTagView(
             }
             Text(
                 text = name,
+                fontSize = 14.sp,
                 overflow = TextOverflow.Ellipsis,
                 modifier = modifier.padding(start = 4.dp)
             )
