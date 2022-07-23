@@ -8,7 +8,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-// This usecase tests Make Cover URL UseCase
+// This tests Make Cover URL UseCase
 class MakeCoverUrlUseCaseTest {
 
     private lateinit var makeCoverUrlUseCase: MakeCoverUrlUseCase
