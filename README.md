@@ -7,3 +7,4 @@ Android Book Search Application,
   * Kotlin Coroutines 
   * Dagger/Hilt
   * Retrofit
+  * Sample UseCase Unit Test
