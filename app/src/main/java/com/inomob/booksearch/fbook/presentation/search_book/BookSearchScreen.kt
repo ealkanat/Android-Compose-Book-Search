@@ -11,19 +11,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.inomob.booksearch.fbook.domain.model.Books
 import com.inomob.booksearch.fbook.presentation.search_book.components.BookView
 import com.inomob.booksearch.fbook.presentation.search_book.components.BookViewSkeleton
 
 @Composable
 fun BookSearchScreen(
+    modifier: Modifier = Modifier,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
     viewModel: BooksViewModel = hiltViewModel()
 ) {
 
@@ -32,9 +40,21 @@ fun BookSearchScreen(
 
     Scaffold(
         modifier = Modifier.padding(top = 44.dp),
+        scaffoldState = scaffoldState,
+        snackbarHost = {
+            // Modifying default snackbar
+            SnackbarHost(it) { data ->
+                Snackbar(
+                    backgroundColor = Yellow,
+                    contentColor = Black,
+                    snackbarData = data,
+                    modifier = modifier.padding(bottom = 50.dp)
+                )
+            }
+        },
         topBar = {
                  Row (
-                     modifier = Modifier
+                     modifier = modifier
                          .height(70.dp)
                          .fillMaxWidth()
                          .padding(
@@ -50,12 +70,20 @@ fun BookSearchScreen(
                          keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                          keyboardActions = KeyboardActions(
                              onSearch = {
-                                 viewModel.onEvent(BooksEvent.SearchBook(state.searchString))
-                                 viewModel.onEvent(BooksEvent.SetSearchText(state.searchString))
+                                 // if the search string is empty, validation error shows
+                                 if(state.searchString.isBlank()){
+                                     viewModel.onEvent(
+                                         BooksEvent.SetValidationError(
+                                             "Search can't be empty"))
+                                 }else{
+                                     viewModel.onEvent(BooksEvent.SearchBook(state.searchString))
+                                     viewModel.onEvent(BooksEvent.SetSearchText(state.searchString))
+                                 }
                                  localFocusManager.clearFocus()
                              }
                          ),
                          onValueChange = {
+                             // users can't search the string that has more than 150 chars
                              if (it.length <= 150) {
                                  viewModel.onEvent(BooksEvent.SetSearchText(it))
                              }
@@ -85,7 +113,7 @@ fun BookSearchScreen(
                          placeholder = {
                              Text(text = "Search books")
                          },
-                         modifier = Modifier
+                         modifier = modifier
                              .fillMaxWidth()
                              .padding(2.dp),
                          colors = TextFieldDefaults.textFieldColors(
@@ -94,56 +122,68 @@ fun BookSearchScreen(
                      )
                  }
         },
-        content = {
-            Box(modifier = Modifier.fillMaxSize()){
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(bottom = 60.dp)
-                ) {
-                    state.books?.let {
-                        items(it.docs.take(10)) { doc ->
-                            BookView(doc = doc)
-                        }
+    ){
+        Box(modifier = modifier.fillMaxSize()){
+            LazyColumn(
+                modifier = modifier.fillMaxSize(),
+                contentPadding = PaddingValues(bottom = 60.dp)
+            ) {
+                state.books?.let {
+                    items(it.books.take(10)) { book ->
+                        BookView(book = book)
                     }
                 }
             }
+        }
 
-            if(state.error.isNotBlank()){
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Text(
-                        text = state.error,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.error,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 30.dp),
-                    )
-                }
+        // Show snackbar for validation errors
+        if(state.validationError.isNotBlank()){
+            LaunchedEffect(scaffoldState.snackbarHostState){
+                scaffoldState.snackbarHostState.showSnackbar(
+                    state.validationError
+                )
+                // Notify the viewModel if message displayed
+                viewModel.validationErrorShown()
             }
+        }
 
-            if(state.isLoading){
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Box(modifier = Modifier.fillMaxSize()){
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(bottom = 60.dp)
-                        ) {
-                             items((1.. 10).toList()){
-                                 BookViewSkeleton()
-                             }
+        // Display error message when book search has error
+        if(state.error.isNotBlank()){
+            Column(
+                modifier = modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Text(
+                    text = state.error,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.error,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 30.dp),
+                )
+            }
+        }
+
+        // Display loading state of UI
+        if(state.isLoading){
+            Column(
+                modifier = modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Box(modifier = modifier.fillMaxSize()){
+                    LazyColumn(
+                        modifier = modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 60.dp)
+                    ) {
+                        items((1.. 10).toList()){
+                            BookViewSkeleton()
                         }
                     }
                 }
             }
         }
-    )
+    }
 
 }

@@ -47,7 +47,16 @@ class BooksViewModel @Inject constructor(
                     searchString = event.search
                 )
             }
+            is BooksEvent.SetValidationError -> {
+                _state.value = _state.value.copy(
+                    validationError = event.message
+                )
+            }
         }
+    }
+
+    fun validationErrorShown(){
+        _state.value = _state.value.copy(validationError = "")
     }
 
     private fun searchBook(search: String){
@@ -56,7 +65,7 @@ class BooksViewModel @Inject constructor(
         // Cancel the old Job if it is not completed
         searchJob?.cancel()
         // Create search Job
-        searchJob = booksUseCases.searchBook(search).onEach {
+        searchJob = booksUseCases.searchBookUseCase(search).onEach {
             result ->
             when (result){
                 // If the API call successfully completed
@@ -65,7 +74,7 @@ class BooksViewModel @Inject constructor(
                     _state.value = _state.value.copy(
                         error = "",
                         isLoading = false,
-                        books = result.data
+                        books = booksUseCases.makeCoverUrlUseCase(result.data)
                     )
                 }
                 // If the api call in progress

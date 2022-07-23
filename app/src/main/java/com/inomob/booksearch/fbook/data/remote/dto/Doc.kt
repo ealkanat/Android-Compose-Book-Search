@@ -1,5 +1,7 @@
 package com.inomob.booksearch.fbook.data.remote.dto
 
+import com.inomob.booksearch.fbook.domain.model.Book
+
 data class Doc(
     val _version_: Long,
     val author_alternative_name: List<String>,
@@ -74,3 +76,15 @@ data class Doc(
     val title_suggest: String,
     val type: String
 )
+
+fun Doc.toBook(): Book {
+    return Book(
+        title = title,
+        subtitle = subtitle,
+        type = type,
+        author_name = author_name,
+        publish_year = publish_year,
+        cover_i = cover_i,
+        cover_url = ""
+    )
+}

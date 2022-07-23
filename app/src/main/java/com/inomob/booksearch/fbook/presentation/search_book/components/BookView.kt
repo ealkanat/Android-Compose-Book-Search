@@ -16,12 +16,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
-import com.inomob.booksearch.fbook.common.Constants
-import com.inomob.booksearch.fbook.data.remote.dto.Doc
+import com.inomob.booksearch.fbook.domain.model.Book
 
 @Composable
 fun BookView(
-    doc: Doc
+    book: Book
 ) {
 
     Card(
@@ -41,11 +40,11 @@ fun BookView(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(Constants.COVER_URL + doc.cover_i.toString() + "-M.jpg")
+                        .data(book.cover_url)
                         .size(Size.ORIGINAL)
                         .crossfade(true)
                         .build(),
-                    contentDescription = doc.title,
+                    contentDescription = book.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )
@@ -54,20 +53,22 @@ fun BookView(
                 modifier = Modifier.fillMaxSize().padding(6.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
+                book.title?.let {
+                    Text(
+                        text = it,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(4.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                }
                 Text(
-                    text = doc.title,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(4.dp),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-                Text(
-                    text = if (doc.author_name != null) doc.author_name[0] else "",
+                    text = if (book.author_name != null) book.author_name[0] else "",
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(4.dp)
                 )
                 Text(
-                    text = if (doc.publish_year != null) doc.publish_year[0].toString() else "",
+                    text = if (book.publish_year != null) book.publish_year[0].toString() else "",
                     modifier = Modifier.padding(4.dp)
                 )
             }

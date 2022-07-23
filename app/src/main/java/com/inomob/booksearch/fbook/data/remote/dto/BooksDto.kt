@@ -15,6 +15,6 @@ data class BooksDto(
 fun BooksDto.toBooks(): Books {
     return Books(
         numFound = numFound,
-        docs = docs
+        books = docs.map { it.toBook() }
     )
 }

@@ -14,7 +14,7 @@ import javax.inject.Inject
 // This Use Case class for the business logic, with use case classes we can do
 // business operations like order, sort, format date etc...
 // In this case I use Use Case class just for return data without business logic.
-class SearchBook @Inject constructor(
+class SearchBookUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
      operator fun invoke(search: String) : Flow<Resource<Books>> = flow {
