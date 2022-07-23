@@ -1,5 +1,7 @@
 package com.inomob.booksearch.fbook.data.remote.dto
 
+import com.inomob.booksearch.fbook.common.Constants
+import com.inomob.booksearch.fbook.domain.model.Author
 import com.inomob.booksearch.fbook.domain.model.Book
 
 data class Doc(
@@ -78,11 +80,22 @@ data class Doc(
 )
 
 fun Doc.toBook(): Book {
+
+    val nAuthors = mutableListOf<Author>();
+    if(!author_name.isNullOrEmpty()){
+        for((index, value) in author_name.withIndex()){
+            nAuthors.add(Author(
+                name = value,
+                imageUrl = Constants.AUTHOR_IMG_URL + author_key[index] + "-S.jpg"
+            ))
+        }
+    }
+
     return Book(
         title = title?: "",
         subtitle = subtitle?: "",
         type = type?: "",
-        author_name = author_name?: listOf<String>(""),
+        authors = nAuthors,
         publish_year = publish_year?: emptyList(),
         cover_i = cover_i,
         cover_url = ""

@@ -1,7 +1,7 @@
 package com.inomob.booksearch.fbook.domain.model
 
 data class Book(
-    val author_name: List<String>,
+    val authors: List<Author>,
     val cover_i: Int?,
     val cover_url: String,
     val publish_year: List<Int>,
