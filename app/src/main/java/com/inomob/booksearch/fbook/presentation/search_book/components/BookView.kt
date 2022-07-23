@@ -53,22 +53,20 @@ fun BookView(
                 modifier = Modifier.fillMaxSize().padding(6.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                book.title?.let {
-                    Text(
-                        text = it,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(4.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
-                }
                 Text(
-                    text = if (book.author_name != null) book.author_name[0] else "",
+                    text = book.title,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(4.dp),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+                Text(
+                    text = book.author_name.joinToString { it -> it.toString() },
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(4.dp)
                 )
                 Text(
-                    text = if (book.publish_year != null) book.publish_year[0].toString() else "",
+                    text = if (book.publish_year.isNotEmpty()) book.publish_year[0].toString() else "",
                     modifier = Modifier.padding(4.dp)
                 )
             }

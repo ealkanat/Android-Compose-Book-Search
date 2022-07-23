@@ -79,11 +79,11 @@ data class Doc(
 
 fun Doc.toBook(): Book {
     return Book(
-        title = title,
-        subtitle = subtitle,
-        type = type,
-        author_name = author_name,
-        publish_year = publish_year,
+        title = title?: "",
+        subtitle = subtitle?: "",
+        type = type?: "",
+        author_name = author_name?: listOf<String>(""),
+        publish_year = publish_year?: emptyList(),
         cover_i = cover_i,
         cover_url = ""
     )
