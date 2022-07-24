@@ -9,5 +9,5 @@ import javax.inject.Inject
 data class BookUseCases @Inject constructor (
     val searchBookUseCase: SearchBookUseCase,
     val makeCoverUrlUseCase: MakeCoverUrlUseCase,
-    val openCloseBookDetailUseCase: OpenCloseBookDetailUseCase
+    val expandCloseDetailsUseCase: ExpandCloseDetailsUseCase
 )

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.inomob.booksearch.fbook.common.Resource
 import com.inomob.booksearch.fbook.domain.use_case.BookUseCases
+import com.inomob.booksearch.fbook.domain.use_case.ExpandCloseDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -52,8 +53,9 @@ class BooksViewModel @Inject constructor(
                     validationError = event.message
                 )
             }
-            is BooksEvent.OpenCloseBookDetail -> {
-                _state.value = booksUseCases.openCloseBookDetailUseCase(event.key, _state.value)
+            is BooksEvent.ExpandCloseDetails -> {
+                _state.value = booksUseCases.expandCloseDetailsUseCase(
+                    event.key, _state.value, event.expandType)
             }
         }
     }

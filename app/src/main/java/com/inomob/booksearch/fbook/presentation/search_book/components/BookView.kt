@@ -1,5 +1,6 @@
 package com.inomob.booksearch.fbook.presentation.search_book.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -23,6 +24,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 import com.inomob.booksearch.fbook.domain.model.Book
+import com.inomob.booksearch.fbook.domain.use_case.ExpandCloseDetailsUseCase
+import com.inomob.booksearch.fbook.domain.util.ExpandType
 import com.inomob.booksearch.fbook.presentation.search_book.BooksEvent
 import com.inomob.booksearch.fbook.presentation.search_book.BooksViewModel
 
@@ -40,12 +43,13 @@ fun BookView(
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 8.dp,
         modifier = Modifier
+            .animateContentSize()
             .fillMaxWidth()
             .defaultMinSize(minHeight = 140.dp)
             .padding(8.dp)
             .clickable {
-                viewModel.onEvent(BooksEvent.OpenCloseBookDetail(book.key))
-            },
+                viewModel.onEvent(BooksEvent.ExpandCloseDetails(book.key))
+            }
     ) {
         Column() {
             Row (modifier = modifier.fillMaxSize()) {
@@ -99,7 +103,6 @@ fun BookView(
             //Book detail section
             if(state.detailStates.isNotEmpty()){
                 if(state.detailStates[book.key]?.isDetailOpened == true){
-
                     //If book languages available show the languages.
                     if(book.language.isNotEmpty()) {
                         Text(
@@ -109,10 +112,16 @@ fun BookView(
                                 }
                                 append(book.language.joinToString(", "))
                             },
-                            maxLines = 5,
+                            maxLines = if (state.detailStates[book.key]
+                                !!.expandLanguageView) Int.MAX_VALUE else 3,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = modifier.padding(6.dp),
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            modifier = modifier.padding(6.dp).clickable {
+                                viewModel.onEvent(
+                                    BooksEvent.ExpandCloseDetails(
+                                        book.key, ExpandType.LanguageView)
+                                )
+                            }.animateContentSize()
                         )
                     }
 
@@ -141,10 +150,16 @@ fun BookView(
                                 }
                                 append(book.place.joinToString(", "))
                             },
-                            maxLines = 5,
+                            maxLines = if (state.detailStates[book.key]
+                                !!.expandPlacesView) Int.MAX_VALUE else 3,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = modifier.padding(6.dp),
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            modifier = modifier.padding(6.dp).clickable {
+                                viewModel.onEvent(
+                                    BooksEvent.ExpandCloseDetails(
+                                        book.key, ExpandType.PlacesView)
+                                )
+                            }.animateContentSize()
                         )
                     }
 
@@ -157,10 +172,16 @@ fun BookView(
                                 }
                                 append(book.person.joinToString(", "))
                             },
-                            maxLines = 5,
+                            maxLines = if (state.detailStates[book.key]
+                                !!.expandPeopleView) Int.MAX_VALUE else 3,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = modifier.padding(6.dp),
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            modifier = modifier.padding(6.dp).clickable {
+                                viewModel.onEvent(
+                                    BooksEvent.ExpandCloseDetails(
+                                        book.key, ExpandType.PeopleView)
+                                )
+                            }.animateContentSize()
                         )
                     }
 
@@ -176,9 +197,15 @@ fun BookView(
                         Text(
                             text = book.first_sentence,
                             overflow = TextOverflow.Ellipsis,
-                            maxLines = 5,
-                            modifier = modifier.padding(6.dp),
-                            style = MaterialTheme.typography.body1
+                            maxLines = if (state.detailStates[book.key]
+                                !!.expandFirstSentenceView) Int.MAX_VALUE else 3,
+                            style = MaterialTheme.typography.body1,
+                            modifier = modifier.padding(6.dp).clickable {
+                                viewModel.onEvent(
+                                    BooksEvent.ExpandCloseDetails(
+                                        book.key, ExpandType.FirstSentenceView)
+                                )
+                            }.animateContentSize()
                         )
                     }
                 }
