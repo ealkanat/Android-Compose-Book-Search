@@ -18,10 +18,10 @@ class BooksViewModel @Inject constructor(
     private val booksUseCases : BookUseCases
 ) : ViewModel() {
 
-    private val _state = mutableStateOf<BooksState>(BooksState())
+    private val _state = mutableStateOf(BooksState())
     val state: State<BooksState> = _state
     private var searchJob: Job? = null
-    private var lastSearch: String = "";
+    private var lastSearch: String = ""
 
     // Search action performing initially
     init {
@@ -52,6 +52,9 @@ class BooksViewModel @Inject constructor(
                     validationError = event.message
                 )
             }
+            is BooksEvent.OpenCloseBookDetail -> {
+                _state.value = booksUseCases.openCloseBookDetailUseCase(event.key, _state.value)
+            }
         }
     }
 
@@ -71,10 +74,11 @@ class BooksViewModel @Inject constructor(
                 // If the API call successfully completed
                 is Resource.Success -> {
                     lastSearch = search
+                    val books = booksUseCases.makeCoverUrlUseCase(result.data)
                     _state.value = _state.value.copy(
                         error = "",
                         isLoading = false,
-                        books = booksUseCases.makeCoverUrlUseCase(result.data)
+                        books = books,
                     )
                 }
                 // If the api call in progress

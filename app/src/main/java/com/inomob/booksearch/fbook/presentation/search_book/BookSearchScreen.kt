@@ -129,7 +129,7 @@ fun BookSearchScreen(
                 contentPadding = PaddingValues(bottom = 60.dp)
             ) {
                 state.books?.let {
-                    items(it.books.take(10)) { book ->
+                    items(it.books) { book ->
                         BookView(book = book)
                     }
                 }

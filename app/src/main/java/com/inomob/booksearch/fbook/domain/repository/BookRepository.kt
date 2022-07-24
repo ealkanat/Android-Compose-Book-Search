@@ -1,6 +1,7 @@
 package com.inomob.booksearch.fbook.domain.repository
 
 import com.inomob.booksearch.fbook.data.remote.dto.BooksDto
+import com.inomob.booksearch.fbook.data.remote.dto.WorksDto
 
 // BookRepository Interface; I use this interface because
 // we can create a fake repository for test or other purposes

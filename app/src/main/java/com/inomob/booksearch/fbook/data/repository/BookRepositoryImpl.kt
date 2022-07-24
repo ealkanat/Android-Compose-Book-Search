@@ -2,6 +2,7 @@ package com.inomob.booksearch.fbook.data.repository
 
 import com.inomob.booksearch.fbook.data.remote.OpenLibraryApi
 import com.inomob.booksearch.fbook.data.remote.dto.BooksDto
+import com.inomob.booksearch.fbook.data.remote.dto.WorksDto
 import com.inomob.booksearch.fbook.domain.repository.BookRepository
 import javax.inject.Inject
 

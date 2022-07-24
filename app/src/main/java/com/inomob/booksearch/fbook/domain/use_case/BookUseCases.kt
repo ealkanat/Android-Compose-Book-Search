@@ -8,5 +8,6 @@ import javax.inject.Inject
 // It is not necessary for the small scale applications
 data class BookUseCases @Inject constructor (
     val searchBookUseCase: SearchBookUseCase,
-    val makeCoverUrlUseCase: MakeCoverUrlUseCase
+    val makeCoverUrlUseCase: MakeCoverUrlUseCase,
+    val openCloseBookDetailUseCase: OpenCloseBookDetailUseCase
 )
