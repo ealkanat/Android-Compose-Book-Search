@@ -1,6 +1,7 @@
 package com.inomob.booksearch.fbook.presentation.search_book.components
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.inomob.booksearch.fbook.domain.model.Book
@@ -52,22 +55,24 @@ fun BookView(
             }
     ) {
         Column() {
-            Row (modifier = modifier.fillMaxSize()) {
-                Column(
+            Row (
+                modifier = modifier.fillMaxSize().height(140.dp)
+            ) {
+                Box(
                     modifier = modifier
-                        .fillMaxHeight()
                         .width(90.dp)
-                ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(book.cover_url)
-                            .size(Size.ORIGINAL)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = book.title,
-                        contentScale = ContentScale.Crop,
-                        modifier = modifier.fillMaxSize()
-                    )
+                        .fillMaxHeight()
+                    ){
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(book.cover_url)
+                                .size(Size.ORIGINAL)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = book.title,
+                            contentScale = ContentScale.Crop,
+                            modifier = modifier.fillMaxSize()
+                        )
                 }
                 Column(
                     modifier = modifier
