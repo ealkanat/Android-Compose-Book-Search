@@ -9,4 +9,4 @@ Android Book Search Application,
   * Retrofit
   * Sample UseCase Unit Test
   
-  ![application screenshot](https://github.com/ealkanat/Android-Compose-Book-Search/blob/master/Screenshot_20220723_150449.png)
+  ![application screenshot](https://github.com/ealkanat/Android-Compose-Book-Search/blob/master/Screenshot_20220724_153037.png)
