@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.Transparent
@@ -23,6 +24,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.fade
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 import com.inomob.booksearch.fbook.domain.model.Books
 import com.inomob.booksearch.fbook.presentation.search_book.components.BookView
 import com.inomob.booksearch.fbook.presentation.search_book.components.BookViewSkeleton
@@ -121,68 +126,71 @@ fun BookSearchScreen(
                      )
                  }
         },
-    ){
-        Box(modifier = modifier.fillMaxSize()){
-            LazyColumn(
-                modifier = modifier.fillMaxSize(),
-                contentPadding = PaddingValues(bottom = 60.dp)
-            ) {
-                state.books?.let {
-                    items(it.books) { book ->
-                        BookView(book = book)
+        content = { padding ->
+            Box(modifier = modifier.fillMaxSize()){
+                LazyColumn(
+                    modifier = modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 60.dp)
+                ) {
+                    state.books?.let {
+                        items(it.books) { book ->
+                            BookView(
+                                book = book,
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        // Show snackbar for validation errors
-        if(state.validationError.isNotBlank()){
-            LaunchedEffect(scaffoldState.snackbarHostState){
-                scaffoldState.snackbarHostState.showSnackbar(
-                    state.validationError
-                )
-                // Notify the viewModel if message displayed
-                viewModel.validationErrorShown()
+            // Show snackbar for validation errors
+            if(state.validationError.isNotBlank()){
+                LaunchedEffect(scaffoldState.snackbarHostState){
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        state.validationError
+                    )
+                    // Notify the viewModel if message displayed
+                    viewModel.validationErrorShown()
+                }
             }
-        }
 
-        // Display error message when book search has error
-        if(state.error.isNotBlank()){
-            Column(
-                modifier = modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Text(
-                    text = state.error,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.error,
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp),
-                )
+            // Display error message when book search has error
+            if(state.error.isNotBlank()){
+                Column(
+                    modifier = modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Text(
+                        text = state.error,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.error,
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 30.dp),
+                    )
+                }
             }
-        }
 
-        // Display loading state of UI
-        if(state.isLoading){
-            Column(
-                modifier = modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Box(modifier = modifier.fillMaxSize()){
-                    LazyColumn(
-                        modifier = modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 60.dp)
-                    ) {
-                        items((1.. 10).toList()){
-                            BookViewSkeleton()
+            // Display loading state of UI
+            if(state.isLoading){
+                Column(
+                    modifier = modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Box(modifier = modifier.fillMaxSize()){
+                        LazyColumn(
+                            modifier = modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 60.dp)
+                        ) {
+                            items((1.. 10).toList()){
+                                BookViewSkeleton()
+                            }
                         }
                     }
                 }
             }
         }
-    }
+    )
 
 }

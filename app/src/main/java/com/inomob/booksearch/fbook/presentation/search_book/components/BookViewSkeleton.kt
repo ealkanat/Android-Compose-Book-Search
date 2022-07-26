@@ -21,11 +21,16 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.fade
+import com.google.accompanist.placeholder.placeholder
 import com.inomob.booksearch.fbook.common.Constants
 import com.inomob.booksearch.fbook.data.remote.dto.Doc
 
 @Composable
-fun BookViewSkeleton() {
+fun BookViewSkeleton(
+    modifier: Modifier = Modifier
+) {
 
     val brush = linearGradient(
         listOf(
@@ -39,50 +44,81 @@ fun BookViewSkeleton() {
         shape = RoundedCornerShape(size = 6.dp),
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 8.dp,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 140.dp)
-            .padding(8.dp),
+            .padding(8.dp)
+            .height(140.dp),
     ) {
-        Row (modifier = Modifier.fillMaxSize()) {
+        Row (
+            modifier = modifier.fillMaxSize()
+        ) {
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxHeight()
                     .width(90.dp)
             ) {
-                Spacer(modifier = Modifier
-                    .width(120.dp)
+                Spacer(modifier = modifier
+                    .fillMaxWidth()
                     .fillMaxHeight()
-                    .clip(RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(5.dp))
                     .background(brush)
+                    .placeholder(
+                        visible = true,
+                        highlight = PlaceholderHighlight.fade(
+                            MaterialTheme.colors.background
+                        ),
+                        color = Color.LightGray
+                    )
                 )
             }
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .padding(6.dp),
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
-                Spacer(modifier = Modifier
+                Spacer(modifier = modifier
                     .fillMaxWidth()
-                    .height(38.dp)
+                    .height(32.dp)
                     .padding(6.dp)
-                    .clip(RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(5.dp))
                     .background(brush)
+                    .placeholder(
+                        visible = true,
+                        highlight = PlaceholderHighlight.fade(
+                            MaterialTheme.colors.background
+                        ),
+                        color = Color.LightGray
+                    )
                 )
-                Spacer(modifier = Modifier
+                Spacer(modifier = modifier
                     .width(140.dp)
                     .height(28.dp)
                     .padding(4.dp)
-                    .clip(RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(5.dp))
                     .background(brush)
+                    .placeholder(
+                        visible = true,
+                        highlight = PlaceholderHighlight.fade(
+                            MaterialTheme.colors.background
+                        ),
+                        color = Color.LightGray
+                    )
                 )
-                Spacer(modifier = Modifier
+                Spacer(modifier = modifier
                     .width(60.dp)
                     .height(28.dp)
                     .padding(4.dp)
-                    .clip(RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(5.dp))
                     .background(brush)
+                    .placeholder(
+                        visible = true,
+                        highlight = PlaceholderHighlight.fade(
+                            MaterialTheme.colors.background
+                        ),
+                        color = Color.LightGray
+                    )
                 )
             }
         }
