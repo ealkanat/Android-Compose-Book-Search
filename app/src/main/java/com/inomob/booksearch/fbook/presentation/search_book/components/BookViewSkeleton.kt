@@ -32,14 +32,6 @@ fun BookViewSkeleton(
     modifier: Modifier = Modifier
 ) {
 
-    val brush = linearGradient(
-        listOf(
-            Color.LightGray.copy(alpha = 0.9f),
-            Color.LightGray.copy(alpha = 0.4f),
-            Color.LightGray.copy(alpha = 0.9f)
-        )
-    )
-
     Card(
         shape = RoundedCornerShape(size = 6.dp),
         backgroundColor = MaterialTheme.colors.surface,
@@ -62,12 +54,9 @@ fun BookViewSkeleton(
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(5.dp))
-                    .background(brush)
                     .placeholder(
                         visible = true,
-                        highlight = PlaceholderHighlight.fade(
-                            MaterialTheme.colors.background
-                        ),
+                        highlight = PlaceholderHighlight.fade(Color.Gray),
                         color = Color.LightGray
                     )
                 )
@@ -83,12 +72,9 @@ fun BookViewSkeleton(
                     .height(32.dp)
                     .padding(6.dp)
                     .clip(RoundedCornerShape(5.dp))
-                    .background(brush)
                     .placeholder(
                         visible = true,
-                        highlight = PlaceholderHighlight.fade(
-                            MaterialTheme.colors.background
-                        ),
+                        highlight = PlaceholderHighlight.fade(Color.Gray),
                         color = Color.LightGray
                     )
                 )
@@ -97,12 +83,9 @@ fun BookViewSkeleton(
                     .height(28.dp)
                     .padding(4.dp)
                     .clip(RoundedCornerShape(5.dp))
-                    .background(brush)
                     .placeholder(
                         visible = true,
-                        highlight = PlaceholderHighlight.fade(
-                            MaterialTheme.colors.background
-                        ),
+                        highlight = PlaceholderHighlight.fade(Color.Gray),
                         color = Color.LightGray
                     )
                 )
@@ -111,12 +94,9 @@ fun BookViewSkeleton(
                     .height(28.dp)
                     .padding(4.dp)
                     .clip(RoundedCornerShape(5.dp))
-                    .background(brush)
                     .placeholder(
                         visible = true,
-                        highlight = PlaceholderHighlight.fade(
-                            MaterialTheme.colors.background
-                        ),
+                        highlight = PlaceholderHighlight.fade(Color.Gray),
                         color = Color.LightGray
                     )
                 )
