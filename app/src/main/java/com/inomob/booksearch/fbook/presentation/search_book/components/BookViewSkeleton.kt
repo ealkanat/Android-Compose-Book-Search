@@ -53,11 +53,11 @@ fun BookViewSkeleton(
                 Spacer(modifier = modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .clip(RoundedCornerShape(5.dp))
                     .placeholder(
                         visible = true,
                         highlight = PlaceholderHighlight.fade(Color.Gray),
-                        color = Color.LightGray
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(5.dp)
                     )
                 )
             }
@@ -71,11 +71,11 @@ fun BookViewSkeleton(
                     .fillMaxWidth()
                     .height(32.dp)
                     .padding(6.dp)
-                    .clip(RoundedCornerShape(5.dp))
                     .placeholder(
                         visible = true,
                         highlight = PlaceholderHighlight.fade(Color.Gray),
-                        color = Color.LightGray
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(5.dp)
                     )
                 )
                 Spacer(modifier = modifier
@@ -86,7 +86,8 @@ fun BookViewSkeleton(
                     .placeholder(
                         visible = true,
                         highlight = PlaceholderHighlight.fade(Color.Gray),
-                        color = Color.LightGray
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(5.dp)
                     )
                 )
                 Spacer(modifier = modifier
@@ -97,7 +98,8 @@ fun BookViewSkeleton(
                     .placeholder(
                         visible = true,
                         highlight = PlaceholderHighlight.fade(Color.Gray),
-                        color = Color.LightGray
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(5.dp)
                     )
                 )
             }
